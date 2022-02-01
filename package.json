@@ -18,6 +18,8 @@
 		"@wordpress/scripts": "^20.0.1"
 	},
 	"dependencies": {
-		"normalize.css": "^8.0.1"
+		"normalize.css": "^8.0.1",
+		"react": "^17.0.2",
+		"uniqid": "^5.4.0"
 	}
 }

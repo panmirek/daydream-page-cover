@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Daydream – Page Cover",
 	"category": "widgets",
-	"icon": "cover",
+	"icon": "cover-image",
 	"description": "Page cover block for daydream-yachting theme.",
 	"supports": {
 		"html": false

@@ -8,6 +8,8 @@ $dark100: #141414;
 $dark90: lighten($dark100, 10);
 $dark70: lighten($dark100, 30);
 
+$white: #fff;
+
 @mixin tablet {
     @media only screen and (min-width: 960px) {
         @content
