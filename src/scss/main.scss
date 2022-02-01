@@ -1,0 +1,160 @@
+@import "variables";
+@import "generics";
+
+$coverTopPad: 10vh;
+$imgBorderRadius: 10px;
+
+body {
+  background-color: $mainBackground;
+}
+
+.ddy-cover {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    order: 1;
+    place-content: flex-end;
+    
+    @include tablet {
+        flex-direction: row;
+        justify-content: center;
+        padding: 15vh 0 0 5vw;
+        order: 0;
+    }
+  }
+
+  &__bottom {
+    width: 100%;
+    background-color: $dark90;
+
+    @include tablet {
+      background-color: $dark100;
+    }
+  }
+
+  &__image {
+    object-fit: cover;
+    width: 100%;
+
+    &-cell {
+      display: flex;
+      flex: 1;
+
+      @include tablet {
+        border-radius: $imgBorderRadius $imgBorderRadius 0 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &__features {
+    margin: 3em;
+
+    &-item {
+      display: flex;
+
+      &_title, &_desc {
+        margin: 0.4em 0;
+        letter-spacing: 0.03em;
+        font-size: 1.1em;
+      }
+
+      &_title {
+        color: $dark90;
+      }
+
+      &_desc {
+        margin-left: 0.5em;
+        color: $dark70;
+      }
+    }
+
+    &-cell {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+  }
+
+  &__cta-cell {
+    display: flex;
+    flex-direction: column;
+
+    @include tablet {
+      flex-direction: row;
+    }
+  }
+
+  &__btn {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    text-align: center;
+    font-size: 1.5em;
+    background-color: $dark90;
+    color: white;
+    text-decoration: none;
+    flex: 1;
+    position: relative;
+
+    &:hover {
+      background-color: $dark70;
+    }
+
+    & + & {
+      border-top: solid 1px $dark70;
+  
+      @include tablet {
+        border-left: solid 1px $dark70;
+        border-top: none;
+      }
+    }
+
+    &-price {
+      font-size: 1.5em;
+      font-weight: bold;
+      padding-top: 0.3em;
+    }
+
+    &-hover {
+      position: absolute;
+      background-color: $dark70;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      place-items: center;
+      place-content: center;
+      opacity: 0;
+      transition: opacity 0.1s ease-in-out;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 3em;
+    text-align: center;
+    opacity: 0.8;
+    margin: 0.7em;
+    color: white;
+
+    @include tablet {
+      font-size: 4.5em;
+    }
+  }
+}

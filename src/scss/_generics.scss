@@ -1,0 +1,19 @@
+.ddy-flex {
+    display: flex;
+    
+    &_column {
+        flex-direction: column;
+    }
+
+    @for $counter from 1 through 5 {
+        &_#{$counter} {
+            flex: $counter;
+        }
+      }
+
+}
+
+.limit-width {
+    max-width: $maxWidthDesktop;
+    width: 100%;
+}

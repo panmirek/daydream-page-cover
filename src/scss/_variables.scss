@@ -1,0 +1,15 @@
+$mainBackground: #E1F5FF;
+$maxWidthDesktop: 1400px;
+
+
+// colors
+
+$dark100: #141414;
+$dark90: lighten($dark100, 10);
+$dark70: lighten($dark100, 30);
+
+@mixin tablet {
+    @media only screen and (min-width: 960px) {
+        @content
+    }
+}
