@@ -7,7 +7,7 @@ import { registerBlockType } from '@wordpress/blocks';
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import 'normalize.css'
+import 'normalize.css';
 import './style.scss';
 
 import save from './save';
