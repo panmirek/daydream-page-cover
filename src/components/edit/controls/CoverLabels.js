@@ -15,7 +15,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 
 import uniqid from 'uniqid';
 
-export const Controls = ({ attributes, setAttributes }) => {
+export const CoverLabelsControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
 
 	const [featureList, setFeatureList] = useState(

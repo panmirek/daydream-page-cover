@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
-import { Controls } from './Controls';
-import CoverFeatures from '../shared/CoverFeatures';
-import CTAButtons from '../shared/CTAButtons';
+import { CoverLabelsControls } from './controls';
+import { CoverFeatures, CTAButtons } from '../shared';
 
 import { Placeholder } from '@wordpress/components';
 
@@ -43,7 +42,10 @@ const PageCover = ({ attributes, setAttributes }) => {
 
 	return (
 		<div {...useBlockProps()} style={{ maxWidth: 'unset' }}>
-			<Controls setAttributes={setAttributes} attributes={attributes} />
+			<CoverLabelsControls
+				setAttributes={setAttributes}
+				attributes={attributes}
+			/>
 			<header className="ddy-cover">
 				<div className="ddy-cover__top">
 					<figure className="ddy-cover__image-cell">

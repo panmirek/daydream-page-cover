@@ -1,4 +1,4 @@
-const CoverFeatures = ({ features }) => {
+export const CoverFeatures = ({ features }) => {
 	const getFeaturesLabel = ({ key, name, description }) => (
 		<div key={key} className="ddy-cover__features-item">
 			<dt className="ddy-cover__features-item_title">
@@ -19,5 +19,3 @@ const CoverFeatures = ({ features }) => {
 		</dl>
 	);
 };
-
-export default CoverFeatures;

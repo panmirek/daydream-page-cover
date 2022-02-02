@@ -1,7 +1,6 @@
 import { useBlockProps } from '@wordpress/block-editor';
 
-import CoverFeatures from '../shared/CoverFeatures';
-import CTAButtons from '../shared/CTAButtons';
+import { CoverFeatures, CTAButtons } from '../shared';
 
 import { exampleAttributes } from '../../data/attributes';
 

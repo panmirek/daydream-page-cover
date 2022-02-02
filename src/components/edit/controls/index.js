@@ -1,0 +1,1 @@
+export { CoverLabelsControls } from './CoverLabels';
