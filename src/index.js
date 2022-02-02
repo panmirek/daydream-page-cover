@@ -10,10 +10,13 @@ import { registerBlockType } from '@wordpress/blocks';
 import 'normalize.css';
 import './style.scss';
 
-import save from './save';
+import { attributes } from './data/attributes';
+
 import PageCover from './components/edit/PageCover';
+import save from './components/save/PageCover';
 
 registerBlockType('create-block/daydream-cover', {
+	attributes,
 	edit: PageCover,
 	save,
 });

@@ -3,3 +3,18 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+
+.edit-post-visual-editor__post-title-wrapper .editor-post-title {
+	margin-left: 1em;
+	font-weight: bold;
+
+	&::before {
+		content: "Page title: ";
+		color: #999;
+		font-weight: 200;
+	}
+}
+
+.ddy-cover {
+	box-shadow: 0 10px 95px -70px;
+}

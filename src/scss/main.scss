@@ -8,6 +8,12 @@ body {
   background-color: $mainBackground;
 }
 
+a {
+  &:hover, &:visited {
+    color: #DDD;
+  }
+}
+
 .ddy-cover {
   width: 100%;
   min-height: 100vh;
@@ -48,6 +54,7 @@ body {
     &-cell {
       display: flex;
       flex: 1;
+      margin-right: 0;
 
       @include tablet {
         border-radius: $imgBorderRadius $imgBorderRadius 0 0;
@@ -72,6 +79,10 @@ body {
 
       &_title {
         color: $dark90;
+
+        &::after {
+          content: ":";
+        }
       }
 
       &_desc {
@@ -110,7 +121,7 @@ body {
     flex: 1;
     position: relative;
 
-    $btnTransition: opacity 2s ease-in-out;
+    $btnTransition: opacity 0.2s ease-in-out;
 
     &:hover {
       background-color: $dark70;
