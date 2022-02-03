@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import uniqid from 'uniqid';
 
 import {
 	PanelBody,
@@ -13,7 +14,7 @@ import {
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
-import uniqid from 'uniqid';
+import { reorderArrayElementByKey } from '../../../helpers';
 
 export const CoverLabelsControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
@@ -54,6 +55,12 @@ export const CoverLabelsControls = ({ attributes, setAttributes }) => {
 		);
 	};
 
+	const handleMoveItem = (key, vector) => {
+		setFeatureList((features) =>
+			reorderArrayElementByKey(features, key, vector)
+		);
+	};
+
 	useEffect(() => {
 		setAttributes({
 			features: featureList.map(({ name, description }) => ({
@@ -68,36 +75,88 @@ export const CoverLabelsControls = ({ attributes, setAttributes }) => {
 			<Panel>
 				<PanelBody title="Cover Labels" initialOpen={false}>
 					{featureList.map(
-						({ key, name, description, isExpanded }) => (
+						({ key, name, description, isExpanded }, index) => (
 							<Card key={key} style={{ marginBottom: '1em' }}>
 								<CardHeader
-									onClick={() =>
-										handleChangeFeature(key, {
-											isExpanded: !isExpanded,
-										})
-									}
 									style={{ cursor: 'pointer' }}
+									size="xSmall"
 								>
 									<div
 										style={{
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											whiteSpace: 'nowrap',
+											display: 'flex',
+											flexDirection: 'column',
+											borderRight: 'solid 1px #e8e8e8',
 										}}
 									>
-										{`${name || 'Feature'}${
-											description && `: ${description}`
-										}`}
+										<Button
+											isSmall
+											disabled={!(index > 0)}
+											icon="arrow-up"
+											onClick={() =>
+												handleMoveItem(key, -1)
+											}
+											style={{
+												paddingLeft: 0,
+											}}
+										/>
+										<Button
+											isSmall
+											disabled={
+												!(
+													index <
+													featureList.length - 1
+												)
+											}
+											icon="arrow-down"
+											onClick={() =>
+												handleMoveItem(key, 1)
+											}
+											style={{
+												paddingLeft: 0,
+											}}
+										/>
 									</div>
-									<Button
-										icon={
-											isExpanded
-												? 'arrow-up-alt2'
-												: 'arrow-down-alt2'
+									<div
+										style={{ display: 'flex', flex: 1 }}
+										tabIndex={0}
+										role="button"
+										onKeyDown={({ code }) => {
+											if (code === 'Space')
+												handleChangeFeature(key, {
+													isExpanded: !isExpanded,
+												});
+										}}
+										onClick={() =>
+											handleChangeFeature(key, {
+												isExpanded: !isExpanded,
+											})
 										}
-										showTooltip
-										label="Toggle Editing"
-									/>
+									>
+										<div
+											style={{
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												whiteSpace: 'nowrap',
+												flex: 1,
+												display: 'flex',
+												alignItems: 'center',
+											}}
+										>
+											{`${name || 'Feature'}${
+												description &&
+												`: ${description}`
+											}`}
+										</div>
+										<Button
+											icon={
+												isExpanded
+													? 'arrow-up-alt2'
+													: 'arrow-down-alt2'
+											}
+											showTooltip
+											label="Toggle Editing"
+										/>
+									</div>
 								</CardHeader>
 								{isExpanded && (
 									<CardBody>

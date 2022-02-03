@@ -2,11 +2,8 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 import { CoverFeatures, CTAButtons } from '../shared';
 
-import { exampleAttributes } from '../../data/attributes';
-
 const PageCover = ({ attributes }) => {
-	const { cta } = exampleAttributes.coverAttributes;
-	const { features, title, featuredImageUrl } = attributes;
+	const { features, title, featuredImageUrl, ctaButtons } = attributes;
 
 	return (
 		<div {...useBlockProps.save()} style={{ maxWidth: 'unset' }}>
@@ -22,7 +19,7 @@ const PageCover = ({ attributes }) => {
 					<div className="ddy-cover__features-cell">
 						<CoverFeatures features={features} />
 						<div className="ddy-cover__cta-cell">
-							<CTAButtons cta={cta} />
+							<CTAButtons cta={ctaButtons} />
 						</div>
 					</div>
 				</div>

@@ -1,8 +1,8 @@
 export const CTAButtons = ({ cta }) =>
-	cta.map(({ url, title, text, price }) => (
-		<a href={url} title={title} className="ddy-cover__btn" key={text}>
-			{text}
+	cta.map(({ url, hover, text, price, key }) => (
+		<a href={url} className="ddy-cover__btn" key={key}>
+			<span>{text}</span>
 			{price && <div className="ddy-cover__btn-price">{price}</div>}
-			{title && <div className="ddy-cover__btn-hover">{title}</div>}
+			{hover && <div className="ddy-cover__btn-hover">{hover}</div>}
 		</a>
 	));

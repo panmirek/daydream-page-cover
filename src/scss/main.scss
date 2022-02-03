@@ -55,12 +55,15 @@ a {
       display: flex;
       flex: 1;
       margin-right: 0;
+      max-height: 33vh;
 
       @include tablet {
         border-radius: $imgBorderRadius $imgBorderRadius 0 0;
         overflow: hidden;
         position: relative;
-        bottom: -3em;
+        bottom: -5em;
+        max-height: 30em;
+        align-self: flex-end;
       }
     }
   }
