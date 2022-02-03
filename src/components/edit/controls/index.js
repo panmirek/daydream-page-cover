@@ -1,2 +1,2 @@
-export { CoverLabelsControls } from './CoverLabels';
-export { CoverCTAControls } from './CoverCTA';
+export { CoverFeaturesControls } from './CoverFeatures';
+export { CTAButtonsControls } from './CTAButtons';

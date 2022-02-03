@@ -14,7 +14,7 @@ import {
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
-export const CoverCTAControls = ({ attributes, setAttributes }) => {
+export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	const { ctaButtons: ctaButtonsAttr } = attributes;
 
 	const [ctaButtons, setCtaButtons] = useState([...ctaButtonsAttr]);

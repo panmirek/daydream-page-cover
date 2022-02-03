@@ -4,7 +4,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 import { Placeholder } from '@wordpress/components';
 
-import { CoverCTAControls, CoverLabelsControls } from './controls';
+import { CTAButtonsControls, CoverFeaturesControls } from './controls';
 import { CoverFeatures, CTAButtons } from '../shared';
 import { extendArrayWithKeys } from '../../helpers';
 
@@ -56,11 +56,11 @@ const PageCover = ({ attributes, setAttributes }) => {
 
 	return (
 		<div {...useBlockProps()} style={{ maxWidth: 'unset' }}>
-			<CoverLabelsControls
+			<CoverFeaturesControls
 				setAttributes={setAttributes}
 				attributes={attributes}
 			/>
-			<CoverCTAControls
+			<CTAButtonsControls
 				setAttributes={setAttributes}
 				attributes={attributes}
 			/>

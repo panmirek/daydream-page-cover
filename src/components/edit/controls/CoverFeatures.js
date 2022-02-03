@@ -16,7 +16,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 
 import { reorderArrayElementByKey } from '../../../helpers';
 
-export const CoverLabelsControls = ({ attributes, setAttributes }) => {
+export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
 
 	const [featureList, setFeatureList] = useState(
