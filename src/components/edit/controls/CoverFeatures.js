@@ -14,18 +14,16 @@ import {
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
-import { reorderArrayElementByKey } from '../../../helpers';
+import {
+	extendArrayWithKeys,
+	reorderArrayElementByKey,
+} from '../../../helpers';
 
 export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
 
 	const [featureList, setFeatureList] = useState(
-		featuresAttr.map(({ name, description }) => ({
-			key: uniqid(),
-			name,
-			description,
-			isExpanded: false,
-		}))
+		extendArrayWithKeys(featuresAttr, { isExpanded: false })
 	);
 
 	const addFeature = (feature) =>
@@ -37,9 +35,10 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 		);
 	};
 
-	const createFeature = (
-		{ name, description } = { name: '', description: '' }
-	) => ({ key: uniqid(), name, description });
+	const createFeature = (feature = { name: '', description: '' }) => ({
+		...feature,
+		key: uniqid(),
+	});
 
 	const handleAddFeature = () => {
 		addFeature(createFeature({ name: '', description: '' }));
@@ -193,7 +192,7 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 													removeFeature({ key })
 												}
 											>
-												Remove Feature
+												Remove Label
 											</Button>
 										</CardFooter>
 									</CardBody>
@@ -205,9 +204,9 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 						<Button
 							icon="plus"
 							onClick={handleAddFeature}
-							showTooltip
+							disabled={featureList.length >= 8}
 						>
-							Add Cover Feature
+							Add Label
 						</Button>
 					</div>
 				</PanelBody>

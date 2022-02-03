@@ -1,7 +1,7 @@
 import uniqid from 'uniqid';
 
-export const extendArrayWithKeys = (objArray) =>
-	objArray.map((obj) => ({ ...obj, key: uniqid() }));
+export const extendArrayWithKeys = (objArray, props) =>
+	objArray.map((obj) => ({ ...obj, ...props, key: uniqid() }));
 
 export const reorderArrayElementByKey = (array, key, vector = 1) => {
 	const newArr = [...array];
