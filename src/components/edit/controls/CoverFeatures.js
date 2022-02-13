@@ -14,6 +14,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import {
 	extendArrayWithKeys,
 	reorderArrayElementByKey,
+	undefinedValuesToString,
 	getUpdatedKeyItems,
 	getListWithoutItem,
 } from '../../../helpers';
@@ -28,7 +29,9 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
 
 	const [featureList, setFeatureList] = useState(
-		extendArrayWithKeys(featuresAttr, { isExpanded: false })
+		extendArrayWithKeys(featuresAttr, { isExpanded: false }).map(
+			(extended) => undefinedValuesToString(extended)
+		)
 	);
 
 	const addFeature = (feature) =>

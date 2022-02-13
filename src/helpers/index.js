@@ -20,3 +20,8 @@ export const getUpdatedKeyItems = (list = [], currentKey, property) =>
 
 export const getListWithoutItem = (list = [], currentKey) =>
 	list.filter((item) => item.key !== currentKey);
+
+export const undefinedValuesToString = (obj) =>
+	Object.fromEntries(
+		Object.entries(obj).map(([key, val]) => [key, val || ''])
+	);

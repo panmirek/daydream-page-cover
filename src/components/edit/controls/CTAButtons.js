@@ -15,6 +15,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import {
 	reorderArrayElementByKey,
 	extendArrayWithKeys,
+	undefinedValuesToString,
 	getUpdatedKeyItems,
 	getListWithoutItem,
 } from '../../../helpers';
@@ -37,16 +38,28 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	const { ctaButtons: ctaButtonsAttr, title } = attributes;
 
 	const [ctaButtonList, setCtaButtonList] = useState(
-		extendArrayWithKeys(ctaButtonsAttr, { isExpanded: false })
+		extendArrayWithKeys(ctaButtonsAttr, { isExpanded: false }).map(
+			(extended) => undefinedValuesToString(extended)
+		)
 	);
 
 	const addCTABtn = (button) =>
 		setCtaButtonList((buttons) => [...buttons, button]);
 
-	const createButton = (button) => ({ ...button, key: uniqid() });
+	const createButton = (button = { text: '', price: '', hover: '' }) => ({
+		...button,
+		key: uniqid(),
+	});
 
 	const handleAddNewCTA = () => {
-		addCTABtn(createButton({ isExpanded: true, hover: 'Send request' }));
+		addCTABtn(
+			createButton({
+				isExpanded: true,
+				hover: 'Send request',
+				text: '',
+				price: '',
+			})
+		);
 	};
 
 	const handleChangeCTA = (currentKey, property) => {
@@ -56,8 +69,8 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	};
 
 	const handleMoveItem = (key, vector) => {
-		setCtaButtonList((features) =>
-			reorderArrayElementByKey(features, key, vector)
+		setCtaButtonList((buttons) =>
+			reorderArrayElementByKey(buttons, key, vector)
 		);
 	};
 
