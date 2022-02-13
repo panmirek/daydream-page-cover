@@ -14,14 +14,14 @@ import { InspectorControls } from '@wordpress/block-editor';
 import {
 	extendArrayWithKeys,
 	reorderArrayElementByKey,
+	getUpdatedKeyItems,
+	getListWithoutItem,
 } from '../../../helpers';
 
 import {
 	MovableItemCardHeader,
 	MovableItemCardFooter,
 	AddItemButton,
-	getUpdatedKeyItems,
-	getListWithoutItem,
 } from './common';
 
 export const CoverFeaturesControls = ({ attributes, setAttributes }) => {

@@ -12,14 +12,17 @@ import {
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
-import { extendArrayWithKeys } from '../../../helpers';
+import {
+	reorderArrayElementByKey,
+	extendArrayWithKeys,
+	getUpdatedKeyItems,
+	getListWithoutItem,
+} from '../../../helpers';
 
 import {
 	MovableItemCardHeader,
 	MovableItemCardFooter,
 	AddItemButton,
-	getUpdatedKeyItems,
-	getListWithoutItem,
 } from './common';
 
 export const CTAButtonsControls = ({ attributes, setAttributes }) => {
@@ -51,6 +54,12 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 		);
 	};
 
+	const handleMoveItem = (key, vector) => {
+		setCtaButtonList((features) =>
+			reorderArrayElementByKey(features, key, vector)
+		);
+	};
+
 	useEffect(() => {
 		setAttributes({
 			ctaButtons: ctaButtonList.map(({ url, hover, text, price }) => ({
@@ -73,7 +82,7 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 						) => (
 							<Card key={key} style={{ marginBottom: '1em' }}>
 								<MovableItemCardHeader
-									handleMoveItem={() => console.log('moved')}
+									handleMoveItem={handleMoveItem}
 									isFirst={index === 0}
 									isLast={!(index < ctaButtonList.length - 1)}
 									currentKey={key}
@@ -83,6 +92,46 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 								/>
 								{isExpanded && (
 									<CardBody>
+										<TextControl
+											label="Label"
+											value={text}
+											placeholder="Button label"
+											onChange={(value) =>
+												handleChangeCTA(key, {
+													text: value,
+												})
+											}
+										/>
+										<TextControl
+											label="Price"
+											value={price}
+											placeholder="123€"
+											onChange={(value) =>
+												handleChangeCTA(key, {
+													price: value,
+												})
+											}
+										/>
+										<TextControl
+											label="Hyperlink"
+											value={url}
+											placeholder="Url or mailto"
+											onChange={(value) =>
+												handleChangeCTA(key, {
+													url: value,
+												})
+											}
+										/>
+										<TextControl
+											label="Hover text"
+											value={hover}
+											placeholder="Text on hover"
+											onChange={(value) =>
+												handleChangeCTA(key, {
+													hover: value,
+												})
+											}
+										/>
 										<MovableItemCardFooter
 											onClick={() =>
 												setCtaButtonList((buttons) =>
