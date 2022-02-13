@@ -3,19 +3,24 @@ import uniqid from 'uniqid';
 
 import {
 	PanelBody,
-	PanelRow,
 	TextControl,
 	TextareaControl,
 	Button,
 	Panel,
 	Card,
 	CardBody,
-	CardHeader,
-	CardFooter,
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
 import { extendArrayWithKeys } from '../../../helpers';
+
+import {
+	MovableItemCardHeader,
+	MovableItemCardFooter,
+	AddItemButton,
+	getUpdatedKeyItems,
+	getListWithoutItem,
+} from './common';
 
 export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	const { ctaButtons: ctaButtonsAttr } = attributes;
@@ -40,6 +45,12 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 		addCTABtn(createButton());
 	};
 
+	const handleChangeCTA = (currentKey, property) => {
+		setCtaButtonList((buttons) =>
+			getUpdatedKeyItems(buttons, currentKey, property)
+		);
+	};
+
 	useEffect(() => {
 		setAttributes({
 			ctaButtons: ctaButtonList.map(({ url, hover, text, price }) => ({
@@ -55,23 +66,43 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<Panel>
 				<PanelBody title="Cover CTA Buttons" initialOpen={false}>
-					<PanelRow>
-						{ctaButtonList.map(({ url, hover, text, price }) => (
-							<Card key={text}>
-								<CardHeader>{text}</CardHeader>
+					{ctaButtonList.map(
+						(
+							{ url, hover, text, price, key, isExpanded },
+							index
+						) => (
+							<Card key={key} style={{ marginBottom: '1em' }}>
+								<MovableItemCardHeader
+									handleMoveItem={() => console.log('moved')}
+									isFirst={index === 0}
+									isLast={!(index < ctaButtonList.length - 1)}
+									currentKey={key}
+									isExpanded={isExpanded}
+									title={text || 'CTA'}
+									onUpdate={handleChangeCTA}
+								/>
+								{isExpanded && (
+									<CardBody>
+										<MovableItemCardFooter
+											onClick={() =>
+												setCtaButtonList((buttons) =>
+													getListWithoutItem(
+														buttons,
+														key
+													)
+												)
+											}
+										/>
+									</CardBody>
+								)}
 							</Card>
-						))}
-						<Button label="" />
-					</PanelRow>
-					<div style={{ display: 'flex', placeContent: 'flex-end' }}>
-						<Button
-							icon="plus"
-							onClick={handleAddNewCTA}
-							disabled={ctaButtonList.length >= 3}
-						>
-							Add CTA Button
-						</Button>
-					</div>
+						)
+					)}
+					<AddItemButton
+						handleAdd={handleAddNewCTA}
+						isDisabled={ctaButtonList.length >= 3}
+						text="Add CTA Button"
+					/>
 				</PanelBody>
 			</Panel>
 		</InspectorControls>

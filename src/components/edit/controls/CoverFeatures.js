@@ -5,12 +5,9 @@ import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
-	Button,
 	Panel,
 	Card,
 	CardBody,
-	CardHeader,
-	CardFooter,
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
@@ -18,6 +15,14 @@ import {
 	extendArrayWithKeys,
 	reorderArrayElementByKey,
 } from '../../../helpers';
+
+import {
+	MovableItemCardHeader,
+	MovableItemCardFooter,
+	AddItemButton,
+	getUpdatedKeyItems,
+	getListWithoutItem,
+} from './common';
 
 export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 	const { features: featuresAttr } = attributes;
@@ -30,9 +35,7 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 		setFeatureList((features) => [...features, feature]);
 
 	const removeFeature = ({ key }) => {
-		setFeatureList((features) =>
-			features.filter((feature) => feature.key !== key)
-		);
+		setFeatureList((features) => getListWithoutItem(features, key));
 	};
 
 	const createFeature = (feature = { name: '', description: '' }) => ({
@@ -46,11 +49,7 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 
 	const handleChangeFeature = (currentKey, property) => {
 		setFeatureList((features) =>
-			features.map((feature) => {
-				return feature.key === currentKey
-					? { ...feature, ...property }
-					: feature;
-			})
+			getUpdatedKeyItems(features, currentKey, property)
 		);
 	};
 
@@ -73,90 +72,19 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<Panel>
 				<PanelBody title="Cover Labels" initialOpen={false}>
-					{featureList.map(
+					{featureList?.map(
 						({ key, name, description, isExpanded }, index) => (
 							<Card key={key} style={{ marginBottom: '1em' }}>
-								<CardHeader
-									style={{ cursor: 'pointer' }}
-									size="xSmall"
-								>
-									<div
-										style={{
-											display: 'flex',
-											flexDirection: 'column',
-											borderRight: 'solid 1px #e8e8e8',
-										}}
-									>
-										<Button
-											isSmall
-											disabled={!(index > 0)}
-											icon="arrow-up"
-											onClick={() =>
-												handleMoveItem(key, -1)
-											}
-											style={{
-												paddingLeft: 0,
-											}}
-										/>
-										<Button
-											isSmall
-											disabled={
-												!(
-													index <
-													featureList.length - 1
-												)
-											}
-											icon="arrow-down"
-											onClick={() =>
-												handleMoveItem(key, 1)
-											}
-											style={{
-												paddingLeft: 0,
-											}}
-										/>
-									</div>
-									<div
-										style={{ display: 'flex', flex: 1 }}
-										tabIndex={0}
-										role="button"
-										onKeyDown={({ code }) => {
-											if (code === 'Space')
-												handleChangeFeature(key, {
-													isExpanded: !isExpanded,
-												});
-										}}
-										onClick={() =>
-											handleChangeFeature(key, {
-												isExpanded: !isExpanded,
-											})
-										}
-									>
-										<div
-											style={{
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												whiteSpace: 'nowrap',
-												flex: 1,
-												display: 'flex',
-												alignItems: 'center',
-											}}
-										>
-											{`${name || 'Feature'}${
-												description &&
-												`: ${description}`
-											}`}
-										</div>
-										<Button
-											icon={
-												isExpanded
-													? 'arrow-up-alt2'
-													: 'arrow-down-alt2'
-											}
-											showTooltip
-											label="Toggle Editing"
-										/>
-									</div>
-								</CardHeader>
+								<MovableItemCardHeader
+									handleMoveItem={handleMoveItem}
+									isFirst={index === 0}
+									isLast={!(index < featureList.length - 1)}
+									currentKey={key}
+									isExpanded={isExpanded}
+									title={name || 'Feature'}
+									subtitle={description}
+									onUpdate={handleChangeFeature}
+								/>
 								{isExpanded && (
 									<CardBody>
 										<TextControl
@@ -180,35 +108,21 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 												})
 											}
 										/>
-										<CardFooter
-											style={{ paddingBottom: 0 }}
-										>
-											<Button
-												icon="remove"
-												showTooltip
-												isDestructive
-												style={{ boxShadow: 'unset' }}
-												onClick={() =>
-													removeFeature({ key })
-												}
-											>
-												Remove Label
-											</Button>
-										</CardFooter>
+										<MovableItemCardFooter
+											onClick={() =>
+												removeFeature({ key })
+											}
+										/>
 									</CardBody>
 								)}
 							</Card>
 						)
 					)}
-					<div style={{ display: 'flex', placeContent: 'flex-end' }}>
-						<Button
-							icon="plus"
-							onClick={handleAddFeature}
-							disabled={featureList.length >= 8}
-						>
-							Add Label
-						</Button>
-					</div>
+					<AddItemButton
+						handleAdd={handleAddFeature}
+						isDisabled={featureList.length >= 8}
+						text="Add Label"
+					/>
 				</PanelBody>
 			</Panel>
 		</InspectorControls>
