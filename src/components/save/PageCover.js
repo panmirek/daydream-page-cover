@@ -4,14 +4,8 @@ import { CoverFeatures, CTAButtons } from '../shared';
 import { extendArrayWithKeys } from '../../helpers';
 
 const PageCover = ({ attributes }) => {
-	const {
-		features,
-		title,
-		featuredImageUrl,
-		ctaButtons,
-		ctaEmail,
-		ctaEmailBody,
-	} = attributes;
+	const { features, title, featuredImageUrl, ctaButtons, ctaEmail } =
+		attributes;
 
 	return (
 		<div {...useBlockProps.save()} style={{ maxWidth: 'unset' }}>
@@ -31,7 +25,6 @@ const PageCover = ({ attributes }) => {
 						<div
 							className="ddy-cover__cta-cell"
 							data-email={ctaEmail}
-							data-email-body={ctaEmailBody}
 						>
 							<CTAButtons cta={extendArrayWithKeys(ctaButtons)} />
 						</div>

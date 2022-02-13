@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import uniqid from 'uniqid';
 
+import { useSelect } from '@wordpress/data';
+
 import {
 	PanelBody,
+	PanelRow,
 	TextControl,
 	TextareaControl,
 	Panel,
 	Card,
 	CardBody,
 	Button,
+	Popover,
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
@@ -34,8 +38,34 @@ const generateMailto = ({ email = '', subject = '', body = '' }) => {
 	return `mailto:${trimmedEmail}?subject=${encodedSubject}&body=${encodedBody}`;
 };
 
+const EmailPreview = ({ subject, body }) => {
+	const [isVisible, setIsVisible] = useState(false);
+	const toggleVisible = () => {
+		setIsVisible((state) => !state);
+	};
+
+	return (
+		<Button variant="link" onClick={toggleVisible}>
+			Preview Email
+			{isVisible && (
+				<Popover>
+					<div style={{ padding: '1em', minWidth: '6em' }}>
+						<b>Subject:</b> {subject}
+						<br />
+						<b>Message:</b> {body}
+					</div>
+				</Popover>
+			)}
+		</Button>
+	);
+};
+
 export const CTAButtonsControls = ({ attributes, setAttributes }) => {
-	const { ctaButtons: ctaButtonsAttr, title } = attributes;
+	const { ctaButtons: ctaButtonsAttr, title, ctaEmail } = attributes;
+
+	const pageLink = useSelect((select) =>
+		select('core/editor').getPermalink()
+	);
 
 	const [ctaButtonList, setCtaButtonList] = useState(
 		extendArrayWithKeys(ctaButtonsAttr, { isExpanded: false }).map(
@@ -89,6 +119,17 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<Panel>
 				<PanelBody title="Cover CTA Buttons" initialOpen={false}>
+					<PanelRow>
+						<TextControl
+							label="Email"
+							value={ctaEmail}
+							placeholder="john@snow.io"
+							help="email used to generate 'mailto:' links"
+							onChange={(value) =>
+								setAttributes({ ctaEmail: value })
+							}
+						/>
+					</PanelRow>
 					{ctaButtonList?.map(
 						(
 							{ url, hover, text, price, key, isExpanded },
@@ -132,26 +173,44 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 											placeholder="Url or mailto"
 											onChange={(value) =>
 												handleChangeCTA(key, {
-													url: value,
+													url: value.trim(),
 												})
 											}
 											help={
-												<Button
-													text="Generate mailto link"
-													variant="link"
-													onClick={() =>
-														handleChangeCTA(key, {
-															url: generateMailto(
+												<>
+													<Button
+														text="Generate mailto link"
+														variant="link"
+														onClick={() =>
+															handleChangeCTA(
+																key,
 																{
-																	email: 'jan@wp.pl',
-																	subject:
-																		title,
-																	body: 'ala ma kota',
+																	url: generateMailto(
+																		{
+																			email: ctaEmail,
+																			subject:
+																				title,
+																			body: `${text} – ${price}
+																		${pageLink}`,
+																		}
+																	),
 																}
-															),
-														})
-													}
-												/>
+															)
+														}
+													/>
+													{url
+														?.toLowerCase()
+														.slice(0, 7) ===
+														'mailto:' &&
+														url?.indexOf(' ') ===
+															-1 && (
+															<EmailPreview
+																subject={title}
+																body={`${text} – ${price}
+														${pageLink}`}
+															/>
+														)}
+												</>
 											}
 										/>
 										<TextControl

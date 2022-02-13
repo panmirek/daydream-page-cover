@@ -101,10 +101,4 @@ export const attributes = {
 		attribute: 'data-email',
 		selector: '.ddy-cover__cta-cell',
 	},
-	ctaEmailBody: {
-		type: 'string',
-		source: 'attribute',
-		attribute: 'data-email-body',
-		selector: '.ddy-cover__cta-cell',
-	},
 };

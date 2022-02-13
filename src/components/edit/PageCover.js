@@ -16,7 +16,6 @@ const PageCover = ({ attributes, setAttributes }) => {
 		featuredImageUrl,
 		ctaButtons: ctaButtonsAttr,
 		ctaEmail,
-		ctaEmailBody,
 	} = attributes;
 	const [features, setFeatures] = useState(extendArrayWithKeys(featuresAttr));
 	const [ctaButtons, setCtaButtons] = useState(
@@ -96,7 +95,6 @@ const PageCover = ({ attributes, setAttributes }) => {
 						<div
 							className="ddy-cover__cta-cell"
 							data-email={ctaEmail}
-							data-email-body={ctaEmailBody}
 						>
 							<CTAButtons cta={ctaButtons} />
 						</div>
