@@ -11,8 +11,18 @@ import { extendArrayWithKeys } from '../../helpers';
 import '../../editor.scss';
 
 const PageCover = ({ attributes, setAttributes }) => {
-	const { features: featuresAttr, featuredImageUrl, ctaButtons } = attributes;
+	const {
+		features: featuresAttr,
+		featuredImageUrl,
+		ctaButtons: ctaButtonsAttr,
+		ctaEmail,
+		ctaEmailBody,
+	} = attributes;
 	const [features, setFeatures] = useState(extendArrayWithKeys(featuresAttr));
+	const [ctaButtons, setCtaButtons] = useState(
+		extendArrayWithKeys(ctaButtonsAttr)
+	);
+
 	const pageTitle = useSelect((select) =>
 		select('core/editor').getEditedPostAttribute('title')
 	);
@@ -54,6 +64,10 @@ const PageCover = ({ attributes, setAttributes }) => {
 		setFeatures(extendArrayWithKeys(featuresAttr));
 	}, [featuresAttr]);
 
+	useEffect(() => {
+		setCtaButtons(extendArrayWithKeys(ctaButtonsAttr));
+	}, [ctaButtonsAttr]);
+
 	return (
 		<div {...useBlockProps()} style={{ maxWidth: 'unset' }}>
 			<CoverFeaturesControls
@@ -79,7 +93,11 @@ const PageCover = ({ attributes, setAttributes }) => {
 					</figure>
 					<div className="ddy-cover__features-cell">
 						<CoverFeatures features={features} />
-						<div className="ddy-cover__cta-cell">
+						<div
+							className="ddy-cover__cta-cell"
+							data-email={ctaEmail}
+							data-email-body={ctaEmailBody}
+						>
 							<CTAButtons cta={ctaButtons} />
 						</div>
 					</div>

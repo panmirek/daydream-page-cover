@@ -5,10 +5,10 @@ import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
-	Button,
 	Panel,
 	Card,
 	CardBody,
+	Button,
 } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
 
@@ -25,8 +25,16 @@ import {
 	AddItemButton,
 } from './common';
 
+const generateMailto = ({ email = '', subject = '', body = '' }) => {
+	const trimmedEmail = email.trim();
+	const encodedSubject = encodeURIComponent(subject);
+	const encodedBody = encodeURIComponent(body);
+
+	return `mailto:${trimmedEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+};
+
 export const CTAButtonsControls = ({ attributes, setAttributes }) => {
-	const { ctaButtons: ctaButtonsAttr } = attributes;
+	const { ctaButtons: ctaButtonsAttr, title } = attributes;
 
 	const [ctaButtonList, setCtaButtonList] = useState(
 		extendArrayWithKeys(ctaButtonsAttr, { isExpanded: false })
@@ -35,17 +43,10 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	const addCTABtn = (button) =>
 		setCtaButtonList((buttons) => [...buttons, button]);
 
-	const createButton = (
-		button = {
-			url: '',
-			hover: 'Send request',
-			text: 'title',
-			price: '999,-',
-		}
-	) => ({ ...button, key: uniqid() });
+	const createButton = (button) => ({ ...button, key: uniqid() });
 
 	const handleAddNewCTA = () => {
-		addCTABtn(createButton());
+		addCTABtn(createButton({ isExpanded: true, hover: 'Send request' }));
 	};
 
 	const handleChangeCTA = (currentKey, property) => {
@@ -75,7 +76,7 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<Panel>
 				<PanelBody title="Cover CTA Buttons" initialOpen={false}>
-					{ctaButtonList.map(
+					{ctaButtonList?.map(
 						(
 							{ url, hover, text, price, key, isExpanded },
 							index
@@ -112,7 +113,7 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 												})
 											}
 										/>
-										<TextControl
+										<TextareaControl
 											label="Hyperlink"
 											value={url}
 											placeholder="Url or mailto"
@@ -120,6 +121,24 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 												handleChangeCTA(key, {
 													url: value,
 												})
+											}
+											help={
+												<Button
+													text="Generate mailto link"
+													variant="link"
+													onClick={() =>
+														handleChangeCTA(key, {
+															url: generateMailto(
+																{
+																	email: 'jan@wp.pl',
+																	subject:
+																		title,
+																	body: 'ala ma kota',
+																}
+															),
+														})
+													}
+												/>
 											}
 										/>
 										<TextControl

@@ -1,9 +1,17 @@
 import { useBlockProps } from '@wordpress/block-editor';
 
 import { CoverFeatures, CTAButtons } from '../shared';
+import { extendArrayWithKeys } from '../../helpers';
 
 const PageCover = ({ attributes }) => {
-	const { features, title, featuredImageUrl, ctaButtons } = attributes;
+	const {
+		features,
+		title,
+		featuredImageUrl,
+		ctaButtons,
+		ctaEmail,
+		ctaEmailBody,
+	} = attributes;
 
 	return (
 		<div {...useBlockProps.save()} style={{ maxWidth: 'unset' }}>
@@ -17,9 +25,15 @@ const PageCover = ({ attributes }) => {
 						/>
 					</figure>
 					<div className="ddy-cover__features-cell">
-						<CoverFeatures features={features} />
-						<div className="ddy-cover__cta-cell">
-							<CTAButtons cta={ctaButtons} />
+						<CoverFeatures
+							features={extendArrayWithKeys(features)}
+						/>
+						<div
+							className="ddy-cover__cta-cell"
+							data-email={ctaEmail}
+							data-email-body={ctaEmailBody}
+						>
+							<CTAButtons cta={extendArrayWithKeys(ctaButtons)} />
 						</div>
 					</div>
 				</div>

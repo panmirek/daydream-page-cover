@@ -66,7 +66,7 @@ export const attributes = {
 		selector: '.ddy-cover__btn',
 		default: [
 			{
-				url: '#',
+				url: '',
 				hover: 'Send request',
 				text: 'Take me there!',
 				price: '1999,-€',
@@ -94,5 +94,17 @@ export const attributes = {
 				attribute: 'href',
 			},
 		},
+	},
+	ctaEmail: {
+		type: 'string',
+		source: 'attribute',
+		attribute: 'data-email',
+		selector: '.ddy-cover__cta-cell',
+	},
+	ctaEmailBody: {
+		type: 'string',
+		source: 'attribute',
+		attribute: 'data-email-body',
+		selector: '.ddy-cover__cta-cell',
 	},
 };

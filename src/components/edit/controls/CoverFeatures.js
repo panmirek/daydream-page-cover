@@ -44,7 +44,9 @@ export const CoverFeaturesControls = ({ attributes, setAttributes }) => {
 	});
 
 	const handleAddFeature = () => {
-		addFeature(createFeature({ name: '', description: '' }));
+		addFeature(
+			createFeature({ name: '', description: '', isExpanded: true })
+		);
 	};
 
 	const handleChangeFeature = (currentKey, property) => {
