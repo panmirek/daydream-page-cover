@@ -28,6 +28,7 @@ export const defaultAttributes = {
 			price: '2770,- €',
 		},
 	],
+	ctaEmail: 'DEFAULT',
 };
 
 export const attributes = {
@@ -100,5 +101,6 @@ export const attributes = {
 		source: 'attribute',
 		attribute: 'data-email',
 		selector: '.ddy-cover__cta-cell',
+		default: defaultAttributes.ctaEmail,
 	},
 };

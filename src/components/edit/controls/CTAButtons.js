@@ -29,6 +29,7 @@ import {
 	MovableItemCardFooter,
 	AddItemButton,
 } from './common';
+import { defaultAttributes } from '../../../data/attributes';
 
 const generateMailto = ({ email = '', subject = '', body = '' }) => {
 	const trimmedEmail = email.trim();
@@ -38,7 +39,7 @@ const generateMailto = ({ email = '', subject = '', body = '' }) => {
 	return `mailto:${trimmedEmail}?subject=${encodedSubject}&body=${encodedBody}`;
 };
 
-const EmailPreview = ({ subject, body }) => {
+const EmailPreview = ({ subject, body, email }) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const toggleVisible = () => {
 		setIsVisible((state) => !state);
@@ -50,6 +51,8 @@ const EmailPreview = ({ subject, body }) => {
 			{isVisible && (
 				<Popover>
 					<div style={{ padding: '1em', minWidth: '6em' }}>
+						<b>To:</b> {email}
+						<br />
 						<b>Subject:</b> {subject}
 						<br />
 						<b>Message:</b> {body}
@@ -66,6 +69,9 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 	const pageLink = useSelect((select) =>
 		select('core/editor').getPermalink()
 	);
+	const [author] = useSelect((select) =>
+		select('core').getUsers({ who: 'authors' })
+	) || [''];
 
 	const [ctaButtonList, setCtaButtonList] = useState(
 		extendArrayWithKeys(ctaButtonsAttr, { isExpanded: false }).map(
@@ -114,6 +120,12 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 			})),
 		});
 	}, [ctaButtonList]);
+
+	useEffect(() => {
+		if (ctaEmail === defaultAttributes.ctaEmail) {
+			setAttributes({ ctaEmail: author.email });
+		}
+	}, []);
 
 	return (
 		<InspectorControls>
@@ -205,6 +217,7 @@ export const CTAButtonsControls = ({ attributes, setAttributes }) => {
 														url?.indexOf(' ') ===
 															-1 && (
 															<EmailPreview
+																email={ctaEmail}
 																subject={title}
 																body={`${text} – ${price}
 														${pageLink}`}
